@@ -27,17 +27,18 @@ class AdminService(
     private val refreshTokenRepository: RefreshTokenRepository
 ) {
 
-
     fun createAdmin(
         userName: String,
         password: String,
         role: Int
-    ): Admin {
+    ): TokenResponse {
         val hashedPassword = hashEncoder.encode(password)
         val existingAdmin = adminRepository.findByUserName(userName)
+
         if (existingAdmin != null) {
             throw HttpClientErrorException(HttpStatus.CONFLICT,"User already exists")
         }
+
         val admin = adminRepository.save(
             Admin(
                 userName = userName,
@@ -45,7 +46,20 @@ class AdminService(
                 role = role
             )
         )
-        return admin
+
+        val accessToken = jwtService.generateAccessToken(admin.id.toString())
+        val newRefresh = jwtService.generateRefreshToken(admin.id.toString())
+
+        storeRefreshToken(admin.id, newRefresh)
+
+        val response = TokenResponse(
+            message = "User Created Successfully",
+            userId = admin.id.toHexString(),
+            accessToken = accessToken,
+            refreshToken = newRefresh,
+        )
+
+        return response
     }
 
 
@@ -66,7 +80,8 @@ class AdminService(
         return TokenResponse(
             accessToken = accessToken,
             refreshToken = newRefresh,
-            message = "Login Successful"
+            message = "Login Successful",
+            userId = admin.id.toHexString()
         )
     }
 
@@ -113,7 +128,8 @@ class AdminService(
         return TokenResponse(
             accessToken = accessToken,
             refreshToken = newRefresh,
-            message = "Login Successful"
+            message = "Login Successful",
+            userId = admin.id.toHexString()
         )
 
     }

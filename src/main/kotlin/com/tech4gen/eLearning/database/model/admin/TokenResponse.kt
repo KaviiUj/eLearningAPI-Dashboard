@@ -4,4 +4,5 @@ data class TokenResponse(
     val accessToken: String,
     val refreshToken: String,
     val message: String,
+    val userId: String,
 )

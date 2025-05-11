@@ -23,7 +23,7 @@ class AdminController(
     @PostMapping("/register")
     fun registerAdmin(
         @Valid @RequestBody request: RegisterRequest
-    ): ResponseEntity<RegisterResponse> {
+    ): ResponseEntity<TokenResponse> {
 
         val admin = adminService.createAdmin(
             userName = request.userName,
@@ -31,14 +31,8 @@ class AdminController(
             role = request.role
         )
 
-        val response = RegisterResponse(
-            userId = admin.id.toHexString(),
-            userName = request.userName,
-            message = "User Created Successfully"
-        )
-
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body(response)
+            .body(admin)
     }
 
     @PostMapping("/login")
