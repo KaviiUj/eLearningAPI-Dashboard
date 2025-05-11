@@ -6,6 +6,4 @@ import org.springframework.data.mongodb.repository.MongoRepository
 
 interface StreamRepository: MongoRepository<Stream, ObjectId> {
     fun findByStreamName(streamName: String): Stream?
-    fun existsByStreamName(streamName: String): Boolean
-    fun deleteByStreamName(streamName: String): Long
 }
