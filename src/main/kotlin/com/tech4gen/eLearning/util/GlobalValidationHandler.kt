@@ -24,8 +24,8 @@ class GlobalValidationHandler {
 
     @ExceptionHandler(HttpClientErrorException::class)
     fun handleHttpClientErrorException(ex: HttpClientErrorException): ResponseEntity<Map<String, String>> {
-        val response = mapOf("message" to "Invalid credentials")
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(response)
+        val response = mapOf("message" to ex.message?.substring(4))
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response) as ResponseEntity<Map<String, String>>
     }
 
     @ExceptionHandler(AuthenticationException::class)
@@ -50,6 +50,12 @@ class GlobalValidationHandler {
     fun handleBadCredentialsException(ex: BadCredentialsException): ResponseEntity<Map<String, String>> {
         val response = mapOf("message" to ex.message)
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response) as ResponseEntity<Map<String, String>>
+    }
+
+    @ExceptionHandler(UsernameNotFoundException::class)
+    fun handleUsernameNotFoundException(ex: UsernameNotFoundException): ResponseEntity<Map<String, String>> {
+        val response = mapOf("message" to ex.message)
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response) as ResponseEntity<Map<String, String>>
     }
 
    /* @ExceptionHandler(AccessDeniedException::class)
@@ -108,11 +114,7 @@ class GlobalValidationHandler {
         return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(response)
     }
 
-    @ExceptionHandler(UsernameNotFoundException::class)
-    fun handleUsernameNotFoundException(ex: UsernameNotFoundException): ResponseEntity<Map<String, String>> {
-        val response = mapOf("message" to "User not found: ${ex.message}")
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response)
-    }
+
 
     @ExceptionHandler(Exception::class)
     fun handleGenericException(ex: Exception): ResponseEntity<Map<String, String>> {
