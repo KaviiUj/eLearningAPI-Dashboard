@@ -7,3 +7,8 @@ data class SubjectResponse(
     val streamId: String,
     val createdAt: String
 )
+
+data class SubjectListResponse(
+    val message: String,
+    val subjects: List<SubjectResponse>
+)

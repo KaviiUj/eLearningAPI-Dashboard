@@ -6,4 +6,5 @@ import org.springframework.data.mongodb.repository.MongoRepository
 
 interface SubjectRepository: MongoRepository<Subject, ObjectId> {
     fun findBySubjectName(subjectName: String): Subject?
+    fun findByStreamId(streamId: String): List<Subject>
 }

@@ -64,10 +64,7 @@ class StreamService(
                 streams = dataList
             )
         } else {
-            StreamListResponse(
-                message = "Streams Not Found",
-                streams = dataList
-            )
+            throw UsernameNotFoundException("Streams not found")
         }
     }
 
