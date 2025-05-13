@@ -7,5 +7,7 @@ data class StreamRequest(
     val streamName: String,
 
     @field:NotBlank(message = "Userid cannot be empty")
-    val userId: String
+    val userId: String,
+
+    val imageUrl: String? = null
 )

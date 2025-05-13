@@ -20,6 +20,7 @@ class StreamService(
     fun createStream(
         streamName: String,
         userId: String,
+        imageUrl: String,
     ): StreamResponse {
 
         val existingStream = streamRepository.findByStreamName(streamName)
@@ -36,7 +37,8 @@ class StreamService(
 
         val stream = Stream(
             streamName = streamName,
-            userId = userId
+            userId = userId,
+            imageUrl = imageUrl
         )
         streamRepository.save(stream)
 
@@ -44,6 +46,7 @@ class StreamService(
             message = "Stream Created Successfully",
             streamName = stream.streamName,
             streamId = stream.id.toHexString(),
+            imageUrl = stream.imageUrl,
             createdAt = stream.createdAt.toString()
         )
     }
@@ -55,6 +58,7 @@ class StreamService(
                 message = "Stream Retrieved Successfully",
                 streamName = stream.streamName,
                 streamId = stream.id.toHexString(),
+                imageUrl = stream.imageUrl,
                 createdAt = stream.createdAt.toString()
             )
         }

@@ -4,6 +4,7 @@ data class StreamResponse(
     val streamName: String,
     val streamId: String,
     val message: String,
+    val imageUrl: String? = null,
     val createdAt: String
 )
 

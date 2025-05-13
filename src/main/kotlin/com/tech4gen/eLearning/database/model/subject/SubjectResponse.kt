@@ -5,7 +5,8 @@ data class SubjectResponse(
     val subjectName: String,
     val subjectId: String,
     val streamId: String,
-    val createdAt: String
+    val createdAt: String,
+    val imageUrl: String? = null
 )
 
 data class SubjectListResponse(

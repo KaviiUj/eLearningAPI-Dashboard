@@ -10,6 +10,7 @@ data class Stream(
     val streamName: String,
     val userId: String,
     @Id val id: ObjectId = ObjectId(),
+    val imageUrl: String = "",
     val createdAt: Instant = Instant.now(),
     val updatedAt: Instant = Instant.now()
 )

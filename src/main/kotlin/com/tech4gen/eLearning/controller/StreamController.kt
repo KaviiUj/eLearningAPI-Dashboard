@@ -29,7 +29,8 @@ class StreamController(
 
         val response = streamService.createStream(
             streamName = streamRequest.streamName,
-            userId = streamRequest.userId
+            userId = streamRequest.userId,
+            imageUrl = streamRequest.imageUrl ?: ""
         )
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response)
