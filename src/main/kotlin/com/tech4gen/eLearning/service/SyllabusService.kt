@@ -8,6 +8,7 @@ import com.tech4gen.eLearning.database.repository.AdminRepository
 import com.tech4gen.eLearning.database.repository.SubjectRepository
 import com.tech4gen.eLearning.database.repository.SyllabusRepository
 import com.tech4gen.eLearning.util.dataLogger
+import com.tech4gen.eLearning.util.toJson
 import org.bson.types.ObjectId
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.core.userdetails.UsernameNotFoundException
@@ -64,6 +65,35 @@ class SyllabusService(
 
         return SyllabusListResponse(
             message = "Syllabus list created successfully",
+            syllabusList = finalList
+        )
+    }
+
+    fun getAllSyllabus(
+        subjectId: String
+    ): SyllabusListResponse {
+        if (subjectId.length != 24 || subjectId.isEmpty()) throw BadCredentialsException("Invalid subject id!")
+        val findSubject = subjectRepository.findById(ObjectId(subjectId))
+        if (!findSubject.isPresent) throw UsernameNotFoundException("Subject not found")
+
+        val syllabusList = syllabusRepository.findBySubjectId(subjectId)
+        if (syllabusList.isEmpty()) throw UsernameNotFoundException("Syllabus not found")
+        val finalList: MutableList<SyllabusResponse> = arrayListOf()
+        syllabusList.forEach { syllabus ->
+            val dataList = SyllabusResponse(
+                imageUrl = syllabus.imageUrl ?: "",
+                isActive = syllabus.isActive,
+                subjectId = syllabus.subjectId,
+                subjectName = findSubject.get().subjectName,
+                userId = syllabus.userId,
+                syllabusId = syllabus.id.toHexString(),
+                syllabusName = syllabus.syllabusName,
+                createdAt = syllabus.createdAt.toString(),
+            )
+            finalList.add(dataList)
+        }
+        return SyllabusListResponse(
+            message = "Syllabus list fetched successfully",
             syllabusList = finalList
         )
     }

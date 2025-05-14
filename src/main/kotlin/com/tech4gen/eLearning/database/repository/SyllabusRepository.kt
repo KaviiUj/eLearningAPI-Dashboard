@@ -6,4 +6,5 @@ import org.springframework.data.mongodb.repository.MongoRepository
 
 interface SyllabusRepository: MongoRepository<Syllabus, ObjectId> {
     fun findBySyllabusName(syllabusName: String): Syllabus?
+    fun findBySubjectId(subjectId: String): List<Syllabus>
 }
