@@ -1,8 +1,5 @@
 package com.tech4gen.eLearning.util
 
-import jakarta.validation.ConstraintViolationException
-import org.springframework.beans.TypeMismatchException
-import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
