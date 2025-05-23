@@ -13,6 +13,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.client.HttpClientErrorException
+import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.NoHandlerFoundException
 import javax.naming.AuthenticationException
 
@@ -46,6 +47,12 @@ class GlobalValidationHandler {
     @ExceptionHandler(BadCredentialsException::class)
     fun handleBadCredentialsException(ex: BadCredentialsException): ResponseEntity<Map<String, String>> {
         val response = mapOf("message" to ex.message)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response) as ResponseEntity<Map<String, String>>
+    }
+
+    @ExceptionHandler(ResponseStatusException::class)
+    fun handleBadCredentialsException(ex: ResponseStatusException): ResponseEntity<Map<String, String>> {
+        val response = mapOf("message" to (ex.reason ?: "An error occurred"))
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response) as ResponseEntity<Map<String, String>>
     }
 
