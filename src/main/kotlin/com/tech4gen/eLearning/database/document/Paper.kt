@@ -1,5 +1,6 @@
 package com.tech4gen.eLearning.database.document
 
+import com.tech4gen.eLearning.database.model.paper.PaperType.Companion.MAX_QUESTIONS
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
@@ -13,6 +14,7 @@ data class Paper(
     val schoolId: String? = null,
     val year: Int,
     val paperType: Int,
+    val maxQuestions: Int = MAX_QUESTIONS,
     val createdAt: Instant = Instant.now(),
     val updatedAt: Instant = Instant.now(),
 )

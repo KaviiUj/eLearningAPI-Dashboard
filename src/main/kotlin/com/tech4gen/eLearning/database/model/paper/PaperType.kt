@@ -10,6 +10,8 @@ enum class PaperType {
         fun fromValue(value: Int): PaperType? {
             return PaperType.entries.find { it.value == value }
         }
+
+        const val MAX_QUESTIONS: Int = 40
     }
 
     val value: Int
