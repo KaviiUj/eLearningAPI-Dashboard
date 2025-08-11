@@ -49,4 +49,11 @@ class SubjectController(
         )
         return ResponseEntity.status(HttpStatus.OK).body(response)
     }
+
+    @GetMapping("/allSubject")
+    fun getAllAvailable()
+    : ResponseEntity<SubjectListResponse>{
+        val response = subjectService.getAllAvailableSubjects()
+        return ResponseEntity.status(HttpStatus.OK).body(response)
+    }
 }

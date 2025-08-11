@@ -115,6 +115,20 @@ class SubjectService(
         }
     }
 
+    fun getAllAvailableSubjects(): SubjectListResponse {
+
+        val allSubjects = subjectRepository.findAll()
+        if (allSubjects.isEmpty()) {
+            throw UsernameNotFoundException("No subjects found in the database")
+        }
+
+        val subjectResponseList = allSubjects.map { it.toSubjectResponse() }
+        return SubjectListResponse(
+            message = "All available subjects retrieved successfully",
+            subjects = subjectResponseList
+        )
+    }
+
     private fun Subject.toSubjectResponse() = SubjectResponse(
         message = "${this.subjectName} found",
         subjectName = this.subjectName,
