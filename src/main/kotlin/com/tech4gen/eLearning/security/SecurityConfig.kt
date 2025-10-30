@@ -5,6 +5,7 @@ import jakarta.servlet.DispatcherType
 import kotlinx.coroutines.Dispatchers
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
@@ -23,11 +24,12 @@ class SecurityConfig(
             .csrf { csrf -> csrf.disable() }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests { auth ->
-                auth.requestMatchers(
-                    "/api/auth/login",
-                    "/api/auth/register",
-                    "/api/auth/refresh"
-                ).permitAll()
+                auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .requestMatchers(
+                        "/api/auth/login",
+                        "/api/auth/register",
+                        "/api/auth/refresh"
+                    ).permitAll()
                     .dispatcherTypeMatchers(
                         DispatcherType.ERROR,
                         DispatcherType.FORWARD
